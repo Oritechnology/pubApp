@@ -1,11 +1,11 @@
 {
   "version": "0.1.0",
   "private": true,
-  "name": "test",
-  "author": "YOUR_NAME_HERE",
+  "name": "pubApp",
+  "author": "Chris Lee, Alex Moore",
   "repository": {
     "type": "git",
-    "url": "YOUR_REPO_URL_HERE"
+    "url": "https://github.com/Oritechnology/pubApp.git"
   },
   "keywords": [
     "react",
