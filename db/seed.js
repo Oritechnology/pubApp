@@ -1,40 +1,75 @@
 'use strict'
 
 const db = require('APP/db')
-    , {User, Thing, Favorite, Promise} = db
-    , {mapValues} = require('lodash')
-
+const {User, Employer, Skill, Job} = db
+const Promise = require('bluebird')
+const {mapValues} = require('lodash')
+console.log("DB", db.config)
 function seedEverything() {
   const seeded = {
     users: users(),
-    things: things(),
+    employers: employers(),
+    skills: skills(),
   }
-
-  seeded.favorites = favorites(seeded)
+  seeded.jobs = jobs(seeded)
+  // seeded.relationships = relationships(seeded)
 
   return Promise.props(seeded)
 }
 
-const users = seed(User, {
-  god: {
-    email: 'god@example.com',
-    name: 'So many names',
-    password: '1234',
+
+const users = seed(User,
+  ({users, employers, skills}) => ({
+      devin: {
+        email: 'devin@123.com',
+        name:'Devin Jackson',
+        password: '123',
+      },
+      chloe: {
+        name: 'Chloe Rice',
+        email: 'chloe@123.com',
+        password: '123'
+      },
+      hb1: {
+        name: 'Devin Blackson',
+        email: 'devin@hireblack.io',
+        password: '123',
+        is_employer:true,
+      },
+      hb2: {
+        name: 'Chloe Ice',
+        email: 'chloe@hireblack.io',
+        password: '123',
+        is_employer:true,
+
+      },
+}))
+
+const employers = seed(Employer, {
+  airbnb: {
+    name: 'AirBnB',
+    company_site: 'http://www.airbnb.com',
   },
-  barack: {
-    name: 'Barack Obama',
-    email: 'barack@example.gov',
-    password: '1234'
+  google: {
+    name: 'Google',
+    company_site: 'http://www.google.com'
+  },
+  hireblack: {
+    name: 'HireBlack',
+    company_site: 'http://www.hireblack.io'
   },
 })
 
-const things = seed(Thing, {
-  surfing: {name: 'surfing'},
-  smiting: {name: 'smiting'},
-  puppies: {name: 'puppies'},
+const skills = seed(Skill, {
+  react: {title: 'react', template:true},
+  mongo: {title: 'mongo', template:true},
+  node: {title: 'node', template:true},
+  nginx: {title: 'nginx', template:true},
+  gunicorn: {title: 'gunicorn', template:true},
+  aws: {title: 'aws', template:true},
 })
 
-const favorites = seed(Favorite,
+const jobs = seed(Job,
   // We're specifying a function here, rather than just a rows object.
   // Using a function lets us receive the previously-seeded rows (the seed
   // function does this wiring for us).
@@ -42,32 +77,72 @@ const favorites = seed(Favorite,
   // This lets us reference previously-created rows in order to create the join
   // rows. We can reference them by the names we used above (which is why we used
   // Objects above, rather than just arrays).
-  ({users, things}) => ({
+  ({users, employers, skills}) => {
+    return ({
     // The easiest way to seed associations seems to be to just create rows
     // in the join table.
-    'obama loves surfing': {
-      user_id: users.barack.id,    // users.barack is an instance of the User model
-                                   // that we created in the user seed above.
-                                   // The seed function wires the promises so that it'll
-                                   // have been created already.
-      thing_id: things.surfing.id  // Same thing for things.
+    'full_stack': {
+      employer_id: employers.hireblack.id,
+      title:'Full Stack Dev',
+      description:'This is a job for a full stack dev',
+      application_url:null,
+      application_email:'emp1@123.com',
+      cc_email: 'emp2@123.com',
+      city:'Brooklyn',
+      state:'NY',
+      country:'US',
+      zip_code:'11207',
+      employment_types:['Full-time', 'Part-time'],
+      compensation_type:'Hourly',
+      pay_rate:'$80',
+      travel_requirements:'None',
+      remote:false,
     },
-    'god is into smiting': {
-      user_id: users.god.id,
-      thing_id: things.smiting.id
-    },
-    'obama loves puppies': {
-      user_id: users.barack.id,
-      thing_id: things.puppies.id
-    },
-    'god loves puppies': {
-      user_id: users.god.id,
-      thing_id: things.puppies.id
+    'dev_ops': {
+      employer_id: employers.hireblack.id,
+      title:'DevOps',
+      description:'This is a job for a devops dude',
+      application_url:null,
+      application_email:'emp1@123.com',
+      cc_email: 'emp2@123.com',
+      city:null,
+      state:null,
+      country: null,
+      zip_code:null,
+      remote:true,
+      employment_types:['Full-time', 'Remote'],
+      compensation_type:'Hourly',
+      pay_rate:'$100',
+      travel_requirements:'None'
     },
   })
+}
+)
+
+const relationships = seed(Job,
+  // We're specifying a function here, rather than just a rows object.
+  // Using a function lets us receive the previously-seeded rows (the seed
+  // function does this wiring for us).
+  //
+  // This lets us reference previously-created rows in order to create the join
+  // rows. We can reference them by the names we used above (which is why we used
+  // Objects above, rather than just arrays).
+  ({jobs}) => {
+    const job1 = jobs.full_stack
+    const job2 = jobs.dev_ops
+    const skills = {
+      1: [1, 2, 3],
+      2: [4, 5, 6]
+    }
+
+    const jobArray = [job1, job2]
+    return Promise.props(jobArray, (job) => job.addSkills(skills[`${job.get().id}`]))
+    .then(success => console.log(success))
+  }
 )
 
 if (module === require.main) {
+  console.log('seeding')
   db.didSync
     .then(() => db.sync({force: true}))
     .then(seedEverything)
@@ -107,9 +182,10 @@ function seed(Model, rows) {
             typeof other === 'function' ? other() : other)
       ).then(rows)
     }
-
     return Promise.resolve(rows)
-      .then(rows => Promise.props(
+      .then(rows => {
+        console.log("ROWS", rows)
+        return Promise.props(
         Object.keys(rows)
           .map(key => {
             const row = rows[key]
@@ -125,7 +201,7 @@ function seed(Model, rows) {
             {}
           )
         )
-      )
+      })
       .then(seeded => {
         console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`)
         return seeded
@@ -135,4 +211,4 @@ function seed(Model, rows) {
   }
 }
 
-module.exports = Object.assign(seed, {users, things, favorites})
+module.exports = Object.assign(seed, {users, employers, jobs, skills})
