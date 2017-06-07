@@ -2,9 +2,9 @@
 
 const {STRING, TEXT, JSON, VIRTUAL} = require('sequelize')
 const app = require('APP')
-const db = require('..')
+const db = require('APP/db')
 
-module.exports = db => db.define('page' {
+module.exports = db => db.define('page', {
   text: TEXT,  
 })
 

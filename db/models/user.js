@@ -3,6 +3,7 @@
 // bcrypt docs: https://www.npmjs.com/package/bcrypt
 const bcrypt = require('bcryptjs')
 const {STRING, TEXT, JSON, VIRTUAL} = require('sequelize')
+const db = require('APP/db')
 
 module.exports = db => db.define('user', {
   
@@ -53,15 +54,17 @@ module.exports = db => db.define('user', {
          })
 */
 
-module.exports.associations = (User, { Books, Pages}) => {
+module.exports.associations = (User, { Book, Page}) => {
   
-  User.belongsToMany(Pages, {
+  User.belongsToMany(Page, {
     as: 'bookmarks',
+    through:'bookmarks',
     foreignKey: 'page_id'
   })
   
-  User.belongsToMany(Books, {
+  User.belongsToMany(Book, {
     as: 'saved_books',
+    through:'saved_books',
     foreignKey: 'book_id'
   })
 
