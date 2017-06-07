@@ -15,5 +15,20 @@ module.exports = db => db.define('writers'{
     }
   },
   password: Virtual,
-  password_digest: String
+  password_digest: STRING,
 })
+
+
+module.exports.associations = (Writer, {pages, reader}) => {
+  Writer.hasOne('book')
+  Writer.belongsToMany(reader {
+    as: 'reader',
+    through:reader,
+    foreignKey: 'reader_id'
+  });
+  .belongsToMany('pages') {
+    as:'pages',
+    through: pages,
+    foreignKey: 'pages_id'
+  } 
+}

@@ -1,4 +1,4 @@
-'use strict'
+cc'use strict'
 
 const sqlize = require('sequelize')
 const app = require('APP')

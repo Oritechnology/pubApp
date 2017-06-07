@@ -1,0 +1,46 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/devinjackson/.nvm/versions/node/v6.10.3/bin/node',
+1 verbose cli   '/Users/devinjackson/.nvm/versions/node/v6.10.3/bin/npm',
+1 verbose cli   'start' ]
+2 info using npm@3.10.10
+3 info using node@v6.10.3
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle pubApp@0.1.0~prestart: pubApp@0.1.0
+6 silly lifecycle pubApp@0.1.0~prestart: no script for prestart, continuing
+7 info lifecycle pubApp@0.1.0~start: pubApp@0.1.0
+8 verbose lifecycle pubApp@0.1.0~start: unsafe-perm in lifecycle true
+9 verbose lifecycle pubApp@0.1.0~start: PATH: /Users/devinjackson/.nvm/versions/node/v6.10.3/lib/node_modules/npm/bin/node-gyp-bin:/Users/devinjackson/Desktop/myProjects/pubApp/node_modules/.bin:/Users/devinjackson/.nvm/versions/node/v6.10.3/bin:/Users/devinjackson/.rvm/gems/ruby-2.3.0/bin:/Users/devinjackson/.rvm/gems/ruby-2.3.0@global/bin:/Users/devinjackson/.rvm/rubies/ruby-2.3.0/bin:/Users/devinjackson/.npm-packages/bin:/Users/devinjackson/.npm-packages/bin:/Users/devinjackson/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Applications/Postgres.app/Contents/Versions/9.5/bin:/Users/devinjackson/.rvm/bin
+10 verbose lifecycle pubApp@0.1.0~start: CWD: /Users/devinjackson/Desktop/myProjects/pubApp
+11 silly lifecycle pubApp@0.1.0~start: Args: [ '-c', 'concurrently "npm start" "node scripts/start.js"' ]
+12 info lifecycle pubApp@0.1.0~start: Failed to exec start script
+13 verbose stack Error: pubApp@0.1.0 start: `concurrently "npm start" "node scripts/start.js"`
+13 verbose stack spawn ENOENT
+13 verbose stack     at ChildProcess.<anonymous> (/Users/devinjackson/.nvm/versions/node/v6.10.3/lib/node_modules/npm/lib/utils/spawn.js:33:16)
+13 verbose stack     at emitTwo (events.js:106:13)
+13 verbose stack     at ChildProcess.emit (events.js:191:7)
+13 verbose stack     at maybeClose (internal/child_process.js:886:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+14 verbose pkgid pubApp@0.1.0
+15 verbose cwd /Users/devinjackson/Desktop/myProjects/pubApp
+16 error Darwin 15.6.0
+17 error argv "/Users/devinjackson/.nvm/versions/node/v6.10.3/bin/node" "/Users/devinjackson/.nvm/versions/node/v6.10.3/bin/npm" "start"
+18 error node v6.10.3
+19 error npm  v3.10.10
+20 error file sh
+21 error code ELIFECYCLE
+22 error errno ENOENT
+23 error syscall spawn
+24 error pubApp@0.1.0 start: `concurrently "npm start" "node scripts/start.js"`
+24 error spawn ENOENT
+25 error Failed at the pubApp@0.1.0 start script 'concurrently "npm start" "node scripts/start.js"'.
+25 error Make sure you have the latest version of node.js and npm installed.
+25 error If you do, this is most likely a problem with the pubApp package,
+25 error not with npm itself.
+25 error Tell the author that this fails on your system:
+25 error     concurrently "npm start" "node scripts/start.js"
+25 error You can get information on how to open an issue for this project with:
+25 error     npm bugs pubApp
+25 error Or if that isn't available, you can get their info via:
+25 error     npm owner ls pubApp
+25 error There is likely additional logging output above.
+26 verbose exit [ 1, true ]
