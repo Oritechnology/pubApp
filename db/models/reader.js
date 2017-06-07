@@ -1,7 +1,7 @@
 'use strict'
 
 
-const app = require('app')
+const app = require('APP')
 const sqlize = require('sequelize')
 const db = require('..')
 
