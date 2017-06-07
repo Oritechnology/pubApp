@@ -9,4 +9,3 @@ module.exports = db => db.define('pages' {
   book: book.id(),
   
   })
-
