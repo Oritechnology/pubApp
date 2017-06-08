@@ -3,12 +3,10 @@
 // bcrypt docs: https://www.npmjs.com/package/bcrypt
 const bcrypt = require('bcryptjs')
 const {STRING, TEXT, JSON, VIRTUAL} = require('sequelize')
+const db = require('APP/db')
 
 module.exports = db => db.define('user', {
-  formattedName: STRING,
-  pictureUrl: STRING,
-  summary: TEXT,
-  siteStandardProfileRequest: JSON,
+  
   email: {
     type: STRING,
     validate: {
@@ -56,13 +54,20 @@ module.exports = db => db.define('user', {
          })
 */
 
-module.exports.associations = (User, {OAuth, Job, JobApplication}) => {
-  User.hasOne(OAuth)
-  User.belongsToMany(Job, {
-    as: 'applications',
-    through: JobApplication,
-    foreignKey: 'application_id'
+module.exports.associations = (User, { Book, Page}) => {
+  
+  User.belongsToMany(Page, {
+    as: 'bookmarks',
+    through:'bookmarks',
+    foreignKey: 'page_id'
   })
+  
+  User.belongsToMany(Book, {
+    as: 'saved_books',
+    through:'saved_books',
+    foreignKey: 'book_id'
+  })
+
 }
 
 function setEmailAndPassword(user) {

@@ -14,9 +14,9 @@ const debug = require('debug')(`${app.name}:models`)
 const metaModels = {
   OAuth: require('./oauth'),
   User: require('./user'),
-  Employer: require('./employer'),
-  Job: require('./job'),
-  JobApplication: require('./job_application')
+  Book: require('./books'),
+  Page: require('./pages'),
+  Genre: require('./genre')
 }
 
 const {mapValues} = require('lodash')

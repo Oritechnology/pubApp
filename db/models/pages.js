@@ -1,11 +1,13 @@
-cc'use strict'
+'use strict'
 
-const sqlize = require('sequelize')
+const {STRING, TEXT, JSON, VIRTUAL} = require('sequelize')
 const app = require('APP')
-const db = require('..')
+const db = require('APP/db')
 
-module.exports = db => db.define('pages' {
-  words: String,
-  book: book.id(),
-  
-  })
+module.exports = db => db.define('page', {
+  text: TEXT,  
+})
+
+module.exports.associations = (Page, { Book }) => {
+  Page.belongsTo(Book)
+}
