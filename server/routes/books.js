@@ -1,14 +1,14 @@
 'use strict'
 
 const db = require('APP/db')
-const {Book} = db
+const {Book, Genre, Page, User} = db
 
 
 module.exports = require('express').Router()
 
   .get('/', 
     (req, res, next) =>
-      Book.findAll()
+      Book.findAll({include: [Genre, Page, User]})
       .then(books => res.json(books))
       .catch(next))
 
@@ -20,7 +20,9 @@ module.exports = require('express').Router()
 
   .get('/:id',
     (req, res, next) =>
-      Book.findById(req.params.id)
+      Book.findById(req.params.id, {
+        include: [Genre, Page, User]
+      })
       .then(book => res.json(book))
       .catch(next))
 
@@ -29,5 +31,12 @@ module.exports = require('express').Router()
       Book.findById(req.params.id)
       .then(book => book.update(req.body))
       .then(updatedBook => res.status(200).json(updatedBook))
+      .catch(next))
+
+  .delete('/:id',
+      (req, res, next) =>
+      Book.findById(req.params.id)
+      .then(book => book.destroy())
+      .then(() => res.sendStatus(204))
       .catch(next))
 

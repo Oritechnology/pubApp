@@ -8,3 +8,10 @@
 		genre: STRING,
 
 	})
+
+  module.exports.associations = (Genre, { User, Book }) => {
+  Genre.belongsToMany(Book, {
+    through:'book_genre',
+    foreignKey: 'book_id'
+  })
+}

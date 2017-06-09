@@ -8,10 +8,10 @@ module.exports = db => db.define('book', {
   name: STRING,
 })
 
-module.exports.associations = (Book, { User, Genre }) => {
+module.exports.associations = (Book, { User, Genre, Page }) => {
   Book.hasOne(User)
+  Book.hasMany(Page)
   Book.belongsToMany(Genre, {
-    as: 'genres',
     through:'book_genre',
     foreignKey: 'genre_id'
   })

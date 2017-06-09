@@ -50,31 +50,28 @@ const users = seed(User,
 const books = seed(Book, {
   Bluest_eye: {
     name: 'The Bluest Eye',
-    genre: 'drama',
     pages: 87
   },
   Laws: {
     name: '48 Laws of Power',
-    genre: 'nonfiction',
     pages: 334
   },
   Green_Eggs: {
     name: 'Green Eggs & Ham',
-    genre: 'children',
     pages: 17
   },
 })
 
 const genres = seed(Genre, {
-  fiction: {title: 'fiction'},
-  children: {title: 'children\'s',},
-  nonfiction: {title: 'nonfiction',},
-  drama: {title: 'drama',},
-  romance: {title: 'romance',},
-  horror: {title: 'horror', },
+  fiction: {genre: 'fiction'},
+  children: {genre: 'children\'s',},
+  nonfiction: {genre: 'nonfiction',},
+  drama: {genre: 'drama',},
+  romance: {genre: 'romance',},
+  horror: {genre: 'horror', },
 })
 
-const pages = seed(Page,
+const pages = seed(Book,
   // We're specifying a function here, rather than just a rows object.
   // Using a function lets us receive the previously-seeded rows (the seed
   // function does this wiring for us).
